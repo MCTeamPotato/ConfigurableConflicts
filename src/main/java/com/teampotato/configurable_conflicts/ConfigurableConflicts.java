@@ -23,8 +23,7 @@ public class ConfigurableConflicts {
 
     static {
         ForgeConfigSpec.Builder builder = new ForgeConfigSpec.Builder();
-        builder.push("ConfigurableConflicts");
-        builder.comment("Format: 'minecraft:infinity;minecraft:mending', that will make this two enchantments compatible");
+        builder.push("ConfigurableConflicts").comment("Format: minecraft:infinity;minecraft:mending. That will make this two enchantments compatible");
         enchantmentsToBeAlwaysIncompatible = builder.defineList("enchantmentsToBeAlwaysIncompatible", new ObjectArrayList<>(), o -> o instanceof String);
         enchantmentsToBeAlwaysCompatible = builder.defineList("enchantmentsToBeAlwaysCompatible", new ObjectArrayList<>(), o -> o instanceof String);
         builder.pop();
@@ -38,7 +37,7 @@ public class ConfigurableConflicts {
                 Enchantment enchantment1 = ForgeRegistries.ENCHANTMENTS.getValue(new ResourceLocation(enchantments.split(";")[0]));
                 Enchantment enchantment2 = ForgeRegistries.ENCHANTMENTS.getValue(new ResourceLocation(enchantments.split(";")[1]));
                 if (enchantment1 == null || enchantment2 == null) continue;
-                if (enchantment1.equals(instance) && arg.equals(enchantment2)) {
+                if ((enchantment1.equals(instance) && arg.equals(enchantment2)) || (enchantment1.equals(arg) && instance.equals(enchantment2))) {
                     checkCompat = true;
                     break;
                 }
@@ -48,7 +47,7 @@ public class ConfigurableConflicts {
                 Enchantment enchantment1 = ForgeRegistries.ENCHANTMENTS.getValue(new ResourceLocation(enchantments.split(";")[0]));
                 Enchantment enchantment2 = ForgeRegistries.ENCHANTMENTS.getValue(new ResourceLocation(enchantments.split(";")[1]));
                 if (enchantment1 == null || enchantment2 == null) continue;
-                if (enchantment1.equals(instance) && arg.equals(enchantment2)) {
+                if ((enchantment1.equals(instance) && arg.equals(enchantment2)) || (enchantment1.equals(arg)) && instance.equals(enchantment2)) {
                     checkCompat = false;
                     break;
                 }
